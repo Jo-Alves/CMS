@@ -5,10 +5,11 @@ var homeController = {
 	},
 	usuario: (request, response, next) => {
 		let usuario = new Usuario();
-		usuario.nome = "Noelly Cristina"
-		usuario.login = "noelly"
-		usuario.senha = "12345"
-		usuario.email = "cris10@lastechnology.com"
+		usuario.id = 6
+		usuario.nome = "Noelly Cristina Ferreira Carvalho"
+		usuario.login = "Cris"
+		usuario.senha = "123456"
+		usuario.email = "cris05@lastechnology.com"
 		usuario.salvar();
 		response.send("Seja bem-vindo.")
 	}
