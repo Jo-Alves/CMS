@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "serve": "nodemon ./bin/www",
-    "jshint": "node ./node_modules/jshint/bin/jshint app/models/usuario.js",
-	"test": "nodemon ./node_modules/jasmine/bin/jasmine.js"
+    "jshint": "node ./node_modules/jshint/bin/jshint app/*/*.js",
+    "test": "node ./node_modules/jasmine/bin/jasmine.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -17,6 +17,7 @@
     "jasmine": "^3.6.1",
     "jshint": "^2.12.0",
     "morgan": "~1.9.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "request": "^2.88.2"
   }
 }

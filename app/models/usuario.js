@@ -1,13 +1,23 @@
 var db = require("../../config/app.js");
  
-var Usuario = function(){
-	this.id = 0;
-	this.nome = "";
-	this.login = "";
-	this.senha = "";
-	this.email = "";
+var Usuario = function(usuario){
+	if(usuario)
+	{
+		this.id = usuario.id;
+		this.nome = usuario.nome;
+		this.login = usuario.login;
+		this.senha = usuario.senha;
+		this.email = usuario.email;
+	}
+	else{
+		this.id = 0;
+		this.nome = "";
+		this.login = "";
+		this.senha = "";
+		this.email = "";
+	}
 	
-	this.salvar = function(){
+	this.salvar = callback => {
 		if(!this.nome){
 			console.log("Campo nome obrigatório!");
 			return;
@@ -36,9 +46,10 @@ var Usuario = function(){
 			
 			db.cnn.exec(query, function(rows, erro){
 				if(erro)
-					console.log("Erro ao inserir dados no banco de dados");
-				else
-					console.log("Dados inseridos com sucesso");
+				{	
+					callback.call(null, { erro: true, mensagem: erro.message} )
+				}else
+					callback.call(null, { erro: false })
 				
 			});
 		}
@@ -47,13 +58,78 @@ var Usuario = function(){
 			
 			db.cnn.exec(query, function(rows, erro){
 				if(erro)
-					console.log("Erro ao atualizar dados no banco de dados");
+					callback.call(null, { erro: true, mensagem: erro.message })
 				else
-					console.log("Dados atualizados com sucesso");
+					callback.call(null, { erro: false })
 				
 			});
 		}
 	};
 };
+
+Usuario.excluirTodos = callback => {
+	query = `DELETE FROM usuarios`;
+			
+	db.cnn.exec(query, function(rows, erro){
+		if(erro)
+			callback.call(null, { erro: true, mensagem: erro.message })
+		else
+			callback.call(null, { erro: false })
+		
+	});
+}
+
+Usuario.truncateTable = callback => {
+	query = `TRUNCATE usuarios`;
+			
+	db.cnn.exec(query, function(rows, erro){
+		if(erro)
+			callback.call(null, { erro: true, mensagem: erro.message })
+		else
+			callback.call(null, { erro: false })
+		
+	});
+}
+
+Usuario.todos = callback => {
+	query = `SELECT * FROM usuarios`;
+			
+	db.cnn.exec(query, function(rows, erro){
+		if(erro)
+			callback.call(null, { 
+		erro: true,
+		mensagem: erro.message,
+		usuarios: [] })
+		else
+			callback.call(null, { 
+		erro: false, 
+		usuarios: rows })
+		
+	});
+}
+
+Usuario.buscarPorID = (id, callback) => {
+	query = `SELECT * FROM usuarios where id = ${id}`;	
+	db.cnn.exec(query, function(rows, erro){
+		if(erro)
+			callback.call(null, { 
+		erro: true,
+		mensagem: erro.message,
+		usuario: {} })
+		else
+		{
+			if(rows.length > 0)
+				callback.call(null, { 
+					erro: false, 
+					usuario: rows[0] 
+				})
+			else
+				callback.call(null, { 
+				erro: false, 
+				usuario: {} 
+			})				
+		}
+	});
+}
 
 module.exports = Usuario;
