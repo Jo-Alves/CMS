@@ -132,4 +132,28 @@ Usuario.buscarPorID = (id, callback) => {
 	});
 }
 
+Usuario.buscarPorNome = (nome, callback) => {
+	query = `SELECT * FROM usuarios where nome like '%${nome}%'`;	
+	db.cnn.exec(query, function(rows, erro){
+		if(erro)
+			callback.call(null, { 
+		erro: true,
+		mensagem: erro.message,
+		usuarios: [] })
+		else
+		{
+			if(rows.length > 0)
+				callback.call(null, { 
+					erro: false, 
+					usuarios: rows
+				})
+			else
+				callback.call(null, { 
+				erro: false, 
+				usuarios: [] 
+			})				
+		}
+	});
+}
+
 module.exports = Usuario;
