@@ -35,7 +35,12 @@ var usuarioController = {
 					})
 				}
 				else
-					response.status(200).send(retorno.usuario)
+					if(retorno.usuario.nome)
+						response.status(200).send(retorno.usuario)
+					else
+						response.status(404).send({ 
+							mensagem: "usuário não encontrado)"
+						})
 		})
 	}, 
 	criar: (request, response, next) => {
@@ -78,6 +83,48 @@ var usuarioController = {
 					else
 						response.status(200).send({mensagem: "Usuário atualizado com sucesso"})
 				})	
+			}
+		})
+	},
+	atualizarPorPatch: (request, response, next) => {
+		Usuario.buscarPorID(request.params.id, retorno => {
+			if(!retorno.usuario.id){
+				response.status(400).send({
+					erro: "Erro ao atualizar, id de usuário não encontrado"
+				})
+			}
+			else{
+				var usuario = new Usuario(retorno.usuario);
+				if(request.body.nome)
+					usuario.nome = request.body.nome;
+				if(request.body.login)
+					usuario.login = request.body.login;
+				if(request.body.senha)
+					usuario.senha = request.body.senha;
+				if(request.body.email)
+					usuario.email = request.body.email;
+				
+				usuario.salvar(retorno => {
+					if(retorno.erro){				
+						response.status(500).send({ 
+							erro: `Erro ao atualizar usuário (${retorno.mensagem})` 
+						})
+					}
+					else
+						response.status(200).send({mensagem: "Usuário atualizado com sucesso"})
+				})	
+			}
+		})
+	},
+	excluirUsuario: (request, response, next) => {
+		Usuario.excluirPorID(request.params.id, retorno => {
+			if(retorno.erro){
+				response.status(500).send({
+					erro: "Erro ao excluir, id de usuário não encontrado"
+				})
+			}
+			else{
+				response.status(204).send("")
 			}
 		})
 	}

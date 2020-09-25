@@ -132,6 +132,21 @@ Usuario.buscarPorID = (id, callback) => {
 	});
 }
 
+Usuario.excluirPorID = (id, callback) => {
+	query = `DELETE FROM usuarios where id = ${id}`;	
+	db.cnn.exec(query, function(rows, erro){
+		if(erro)
+			callback.call(null, { 
+			erro: true,
+			mensagem: erro.message })
+		else
+		{
+			callback.call(null, { 
+			erro: false})
+		}
+	});
+}
+
 Usuario.buscarPorNome = (nome, callback) => {
 	query = `SELECT * FROM usuarios where nome like '%${nome}%'`;	
 	db.cnn.exec(query, function(rows, erro){
