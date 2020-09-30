@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>Cross Domain</title>
+</head>
+<body>
+	<h1>Cross Domain</h1>
+	<button class="btn">Acionar</button>
+	<script src="/javascripts/jquery-3.5.1.min.js"></script>
+	<script>
+		const url = "http://localhost:3000/usuarios.json";
+		const data = {
+			nome: "Maria Cecília Ferreira Carvalho",
+			login: "Marya",
+			senha: "mariceci",
+			email: "cecimaria@oamorvencera.com"
+		}
+		const btn = document.querySelector(".btn");
+		btn.addEventListener("click", chamarAjax);
+		
+		function chamarAjax(){
+			$.ajax({
+			  method: "POST",
+			  url,
+			  data
+			}).done(msg => {
+				alert(`Dados salvos` );
+				console.log(`Dados salvos: ${msg}` );
+			});
+		}
+	</script>
+</body>
+</html>

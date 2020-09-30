@@ -74,24 +74,24 @@ describe("O modelo de usuário", function() {
     // });
   // });
 
-    // describe("com o método todos", function() {
-    // it("deve retornar todos os usuarios", function(done){
-      // Usuario.excluirTodos(function(retorno1){
-        // var usuario = new Usuario();
-        // usuario.nome = "Valdirene Aparecida Ferreira";
-        // usuario.login = "Valdirene";
-        // usuario.senha = "12345";
-        // usuario.email = "valdirene@beminfinito.com.br";
-        // usuario.salvar(function(retorno2){
-          // Usuario.todos(function(retorno3){
-            // expect(retorno3.erro).toBe(false);
-            // expect(retorno3.usuarios.length).toBe(1);
-            // done();
-          // });
-        // });
-      // });
-    // });
-  // });
+    describe("com o método todos", function() {
+    it("deve retornar todos os usuarios", function(done){
+      Usuario.excluirTodos(function(retorno1){
+        var usuario = new Usuario();
+        usuario.nome = "Valdirene Aparecida Ferreira";
+        usuario.login = "Valdirene";
+        usuario.senha = "12345";
+        usuario.email = "valdirene@beminfinito.com.br";
+        usuario.salvar(function(retorno2){
+         Usuario.todos(function(retorno3){
+            expect(retorno3.erro).toBe(false);
+            expect(retorno3.usuarios.length).toBe(1);
+            done();
+          });
+        });
+      });
+    });
+  });
 
   // describe("com o método salvar para atualizar", function() {
     // it("deve atualizar o usuário criado", function(done){
